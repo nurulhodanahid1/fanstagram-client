@@ -4,6 +4,7 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { Card, Form } from 'react-bootstrap';
 import { UserContext } from '../../../App';
 import { useForm} from "react-hook-form";
+import { Link } from 'react-router-dom';
 
 
 const Home = (props) => {
@@ -12,7 +13,6 @@ const Home = (props) => {
     const [singlePost, setSinglePost] = useState([]);
     const [user, setUser] = useState([]);
     const { name, title, body, _id, imageURL, likes, comments, postedBy} = props.post;
-    const handleUserProfile = props.handleUserProfile;
 
     useEffect(() => {
         const url = 'http://localhost:5000/allUsers';
@@ -28,11 +28,10 @@ const Home = (props) => {
         fetch(url)
             .then(res => res.json())
             .then(data => {
-                console.log(data.likes)
                 setSinglePost(data)
             })
 
-    }, []);
+    }, [_id]);
 
     const onSubmit = (data) => {
         const commentData = {
@@ -80,7 +79,7 @@ const Home = (props) => {
     }
     return (
         <Card style={{ margin: "20px auto", maxWidth: '700px', padding: "20px" }}>
-            <h4 onClick={() => handleUserProfile(postedBy)}>{name}</h4>
+            <h4><Link to={postedBy !== filterEmail?._id ? `/userProfile/${postedBy}` : "/profile"}>{name}</Link></h4>
             <img src={imageURL} alt="" />
             <div className="icon" style={{ display: "flex", margin: "10px 0 5px 0", fontSize: "26px" }}>
                 {
@@ -93,7 +92,7 @@ const Home = (props) => {
             <p>{body}</p>
             {
                 comments?.map(comment => <div>
-                    <h4><span style={{fontWeight:"bold"}}>{comment.name} </span> {comment.comment}</h4>
+                    <h4><span style={{fontWeight:"bold"}}>{comment?.name} </span> {comment?.comment}</h4>
                 </div>)
             }
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,7 +102,7 @@ const Home = (props) => {
                     {...register("comment")}
                     placeholder="Add a new comment"
                 />
-                <input className="btn btn-primary" type="submit" />
+                <input value="Send" className="btn btn-primary" type="submit" />
             </form>
         </Card>
     );

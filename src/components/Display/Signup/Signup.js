@@ -65,7 +65,9 @@ const Signup = () => {
         if(user.email && user.password && user.name){
             const postUser = {
                 email: user.email,
-                name: user.name
+                name: user.name,
+                following: [],
+                followers: []
             };
             const url = `http://localhost:5000/addUsers`;
             fetch(url, {

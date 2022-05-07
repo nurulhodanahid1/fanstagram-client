@@ -5,12 +5,9 @@ import { UserContext } from '../../../App';
 
 const UserProfile = () => {
     const { UserId } = useParams();
-    console.log(UserId)
     const [signinUser, setSigninUser] = useContext(UserContext);
     const [user, setUser] = useState([]);
     const [image, setImage] = useState([]);
-
-    console.log("user", user)
 
     useEffect(() => {
         const url = 'http://localhost:5000/allUsers';
@@ -20,16 +17,36 @@ const UserProfile = () => {
     }, []);
 
     const filterUser = user.find(item => item._id === UserId);
-    console.log("filterUser", filterUser)
-    
-    const filterEmail = user.find(e => e.email === signinUser.email);
+    const filterId = user.find(item => item.email === signinUser.email)
+    console.log("filterId:", filterId);
 
+    console.log("filterUser", filterUser)
+    const email = filterUser?.email;
     useEffect(() => {
-        const url = 'http://localhost:5000/profilePosts?email='+signinUser.email;
+        const url = 'http://localhost:5000/profilePosts?email='+email;
         fetch(url)
             .then(response => response.json())
-            .then(data => setImage(data))
-    }, []);
+            .then(data => {
+                console.log("postData:", data)
+                setImage(data)})
+    }, [email]);
+
+    const followUser = () => {
+        const url = `http://localhost:5000/follow/${UserId}`;
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                followersEmail: signinUser.email,
+                followersId: filterId._id,
+                followingEmail: email
+            })
+        })
+            .then(res => console.log("server like site response successfully", res))
+    }
+
     return (
         <div>
             <div style={{ maxWidth: '700px', margin: "0 auto" }}>
@@ -40,10 +57,11 @@ const UserProfile = () => {
                     <Col md={8}>
                         <h2>{filterUser?.name}</h2>
                         <Row>
-                            <Col><h5>45 posts</h5></Col>
-                            <Col><h5>34 followers</h5></Col>
-                            <Col><h5>69 following</h5></Col>
+                            <Col><h5>{image?.length} posts</h5></Col>
+                            <Col><h5>{filterUser?.followers?.length} followers</h5></Col>
+                            <Col><h5>{filterUser?.following?.length} following</h5></Col>
                         </Row>
+                        <input onClick={followUser} value="Follow" className="btn btn-primary" type="submit" />
                     </Col>
                 </Row>
             </div>

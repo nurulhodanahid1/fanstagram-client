@@ -31,7 +31,6 @@ const CreatePost = () => {
             likes: [],
             comments: []
         };
-        console.log("data", postData);
         const url = `http://localhost:5000/addPosts`;
         fetch(url, {
             method: 'POST',
