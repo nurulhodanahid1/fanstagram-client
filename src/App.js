@@ -9,6 +9,7 @@ import Profile from "./components/Display/Profile/Profile";
 import CreatePost from "./components/Display/CratePost/CreatePost";
 import PrivateRoute from "./components/Display/PrivateRoute/PrivateRoute";
 import Posts from "./components/Display/Posts";
+import UserProfile from "./components/Display/UserProfile/UserProfile";
 
 export const UserContext = createContext();
 
@@ -32,9 +33,9 @@ function App() {
             <Route path="/create">
               <CreatePost></CreatePost>
             </Route>
-            <PrivateRoute path="/checkout/:productId">
-              {/* <Checkout></Checkout> */}
-            </PrivateRoute>
+            <Route path="/userProfile/:UserId">
+              <UserProfile></UserProfile>
+            </Route>
             <PrivateRoute path="/orders">
               {/* <Orders></Orders> */}
             </PrivateRoute>

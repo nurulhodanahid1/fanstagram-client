@@ -1,13 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import { Card } from 'react-bootstrap';
+import { Card, Form } from 'react-bootstrap';
 import { UserContext } from '../../../App';
+import { useForm} from "react-hook-form";
+
 
 const Home = (props) => {
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [signinUser, setSigninUser] = useContext(UserContext);
     const [singlePost, setSinglePost] = useState([]);
-    const { name, title, body, _id, imageURL, likes } = props.post;
+    const [user, setUser] = useState([]);
+    const { name, title, body, _id, imageURL, likes, comments, postedBy} = props.post;
+    const handleUserProfile = props.handleUserProfile;
+
+    useEffect(() => {
+        const url = 'http://localhost:5000/allUsers';
+        fetch(url)
+            .then(response => response.json())
+            .then(data => setUser(data))
+    }, []);
+    
+    const filterEmail = user.find(e => e.email === signinUser.email);
 
     useEffect(() => {
         const url = `http://localhost:5000/post/${_id}`;
@@ -20,11 +34,26 @@ const Home = (props) => {
 
     }, []);
 
+    const onSubmit = (data) => {
+        const commentData = {
+            name: filterEmail.name,
+            comment : data.comment
+        };
+        const url = `http://localhost:5000/comment/${singlePost._id}`;
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(commentData)
+        })
+            .then(res => console.log("server like site response successfully", res))
+    }
+
     const likePostUpdate = () => {
         const likeData = {
             email: signinUser.email
         };
-        console.log(JSON.stringify(likeData));
         const url = `http://localhost:5000/like/${singlePost._id}`;
         fetch(url, {
             method: 'PATCH',
@@ -35,17 +64,47 @@ const Home = (props) => {
         })
             .then(res => console.log("server like site response successfully", res))
     }
+    const unlikePostUpdate = () => {
+        const likeData = {
+            email: signinUser.email
+        };
+        const url = `http://localhost:5000/unlike/${singlePost._id}`;
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(likeData)
+        })
+            .then(res => console.log("server like site response successfully", res))
+    }
     return (
-        <Card key={_id} style={{ margin: "20px auto", maxWidth: '700px', padding: "20px" }}>
-            <h4>{name}</h4>
+        <Card style={{ margin: "20px auto", maxWidth: '700px', padding: "20px" }}>
+            <h4 onClick={() => handleUserProfile(postedBy)}>{name}</h4>
             <img src={imageURL} alt="" />
             <div className="icon" style={{ display: "flex", margin: "10px 0 5px 0", fontSize: "26px" }}>
-                <FontAwesomeIcon onClick={likePostUpdate} style={{ marginRight: "10px" }} icon={faThumbsUp} />
-                <FontAwesomeIcon icon={faThumbsDown} />
+                {
+                    likes.includes(signinUser.email) ? <FontAwesomeIcon onClick={unlikePostUpdate} icon={faThumbsDown} />
+                        : <FontAwesomeIcon onClick={likePostUpdate} style={{ marginRight: "10px" }} icon={faThumbsUp} />
+                }
             </div>
+            <h5>Likes: {likes?.length}</h5>
             <h5>{title}</h5>
             <p>{body}</p>
-            <input type="text" placeholder="add a comment..." />
+            {
+                comments?.map(comment => <div>
+                    <h4><span style={{fontWeight:"bold"}}>{comment.name} </span> {comment.comment}</h4>
+                </div>)
+            }
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Form.Control className="form-control"
+                    type="text"
+                    comment="comment"
+                    {...register("comment")}
+                    placeholder="Add a new comment"
+                />
+                <input className="btn btn-primary" type="submit" />
+            </form>
         </Card>
     );
 };

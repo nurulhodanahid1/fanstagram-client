@@ -18,6 +18,7 @@ const CreatePost = () => {
     }, []);
     
     const filterEmail = user.find(e => e.email === signinUser.email);
+    console.log("emaildata", filterEmail)
 
     const onSubmit = data => {
         const postData = {
@@ -26,7 +27,9 @@ const CreatePost = () => {
             imageURL: imageURL,
             email: signinUser.email,
             name: filterEmail.name,
-            likes: []
+            postedBy: filterEmail._id,
+            likes: [],
+            comments: []
         };
         console.log("data", postData);
         const url = `http://localhost:5000/addPosts`;
