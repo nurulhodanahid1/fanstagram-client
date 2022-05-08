@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import "./Home.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { Card, Form } from 'react-bootstrap';
@@ -85,8 +86,10 @@ const Home = (props) => {
         .then(data => setPosts(data))
     }
     return (
-        <Card style={{ margin: "20px auto", maxWidth: '700px', padding: "20px" }}>
-            <h4><Link to={postedBy !== filterEmail?._id ? `/userProfile/${postedBy}` : "/profile"}>{name}</Link></h4>
+        <div style={{backgroundColor:"#f8f6f6", paddingTop:"20px"}}>
+        <Card style={{ margin: "0 auto", maxWidth: '700px', padding: "20px" }}>
+            <h4 style={{marginBottom:"-5px", fontSize:"20px"}}><Link style={{textDecoration:"none"}} to={postedBy !== filterEmail?._id ? `/userProfile/${postedBy}` : "/profile"}>{name}</Link></h4>
+            <hr />
             <img src={imageURL} alt="" />
             <div className="icon" style={{ display: "flex", margin: "10px 0 5px 0", fontSize: "26px" }}>
                 {
@@ -112,6 +115,7 @@ const Home = (props) => {
                 <input onClick={showUpdatedData} value="Send" className="btn btn-primary" type="submit" />
             </form>
         </Card>
+        </div>
     );
 };
 

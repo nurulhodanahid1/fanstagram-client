@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { UserContext } from '../../../App';
+import appleLogo from './img/apple-button.png';
+import googlePlayLogo from './img/googleplay-button.png'
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -64,7 +66,7 @@ const Signin = () => {
     }
 
     return (
-        <div className="myCard">
+        <div style={{backgroundColor:"#f8f6f6"}} className="myCard">
             <Card className="auth-card">
                 <Card.Body>
                     <h1>Instagram</h1>
@@ -73,21 +75,50 @@ const Signin = () => {
                             type="text"
                             placeholder="email"
                             name="email"
-                            onBlur={handleBlur} 
+                            required
+                            onBlur={handleBlur}
                         />
                         <Form.Control className="form-control"
                             type="text"
                             placeholder="password"
                             name="password"
-                            onBlur={handleBlur} 
+                            required
+                            onBlur={handleBlur}
                         />
                         <Button type="submit" variant="primary">Signin</Button>
                     </Form>
-                    <h6>
-                        <Link to='/signup'>Don't have an account?</Link>
-                    </h6>
+                    <div class="separator">
+                        <span></span>
+                        <div class="or">OR</div>
+                        <span></span>
+                    </div>
+                    <div className="fb-forgot">
+                        <div className='facebook-login-btn'>
+                            <h5>Login with Facebook</h5>
+                        </div>
+                        <div className='forgot'>
+                            <h6>Forgot your password?</h6>
+                        </div>
+                    </div>
                 </Card.Body>
             </Card>
+            <Card  style={{marginTop:"4px"}} className='auth-card'>
+                <Card.Body>
+                    <div>"
+                        <h5 style={{ fontSize: "18px" }}>
+                            Don't have an account? <Link style={{ textDecoration: "none" }} to='/signup'>
+                                <span className="underline" style={{ color: "#139CF7" }}>Signup here</span></Link>
+                        </h5>
+                    </div>
+                </Card.Body>
+            </Card>
+            <div class="app-download flex direction-column align-items-center">
+                <h5 style={{ fontSize: "18px", marginBottom: "15px" }}>Get the app</h5>
+                <div class="flex justify-content-center">
+                    <img src={appleLogo} alt="" />
+                    <img src={googlePlayLogo} alt="" />
+                </div>
+            </div>
         </div>
     );
 };

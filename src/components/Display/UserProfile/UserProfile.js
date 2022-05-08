@@ -47,9 +47,44 @@ const UserProfile = () => {
         })
             .then(res => console.log("server like site response successfully", res))
     }
+
+    const followUsers = () => {
+        const filteredId = filterId?._id;
+        const url = `http://localhost:5000/follow`;
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                followersEmail: signinUser.email,
+                followersId: filteredId,
+                followingEmail: email
+            })
+        })
+            .then(res => console.log("server like site response successfully", res))
+    }
+
     const unfollowUser = () => {
         const filteredId = filterId._id;
         const url = `http://localhost:5000/unfollow/${UserId}`;
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                followersEmail: signinUser.email,
+                followersId: filteredId,
+                followingEmail: email
+            })
+        })
+            .then(res => console.log("server like site response successfully", res))
+    }
+
+    const unfollowUsers = () => {
+        const filteredId = filterId._id;
+        const url = `http://localhost:5000/unfollow`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -86,8 +121,8 @@ const UserProfile = () => {
                             <Col><h5>{filterUser?.following?.length} following</h5></Col>
                         </Row>
                         {
-                    filterUser?.followers?.includes(signinUser.email) ? <input onClick={() => { unfollowUser(); showUpdatedData();}} value="Unfollow" className="btn btn-primary" type="submit" />
-                        : <input onClick={() => { followUser(); showUpdatedData();}} value="Follow" className="btn btn-primary" type="submit" />
+                    filterUser?.followers?.includes(signinUser.email) ? <input onClick={() => { unfollowUser(); unfollowUsers(); showUpdatedData();}} value="Unfollow" className="btn btn-primary" type="submit" />
+                        : <input onClick={() => { followUser(); followUsers(); showUpdatedData();}} value="Follow" className="btn btn-primary" type="submit" />
                 }
                     </Col>
                 </Row>

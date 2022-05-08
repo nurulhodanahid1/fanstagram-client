@@ -18,8 +18,9 @@ function App() {
   return (
     <UserContext.Provider value={[signinUser, setSigninUser]}>
         <Router>
-          <h1>{signinUser.email} And {signinUser.name}</h1>
-          <NavBar></NavBar>
+          {
+            signinUser.email && <NavBar></NavBar>
+          }
           <Switch>
             <Route path="/signin">
               <Signin></Signin>
@@ -27,22 +28,18 @@ function App() {
             <Route path="/signup">
               <Signup></Signup>
             </Route>
-            <Route path="/profile">
+            <PrivateRoute path="/profile">
               <Profile></Profile>
-            </Route>
-            <Route path="/create">
-              <CreatePost></CreatePost>
-            </Route>
-            <Route path="/userProfile/:UserId">
-              <UserProfile></UserProfile>
-            </Route>
-            <PrivateRoute path="/orders">
-              {/* <Orders></Orders> */}
             </PrivateRoute>
-
-            <Route exact path="/">
+            <PrivateRoute path="/create">
+              <CreatePost></CreatePost>
+            </PrivateRoute>
+            <PrivateRoute path="/userProfile/:UserId">
+              <UserProfile></UserProfile>
+            </PrivateRoute>
+            <PrivateRoute exact path="/">
               <Posts></Posts>
-            </Route>
+            </PrivateRoute>
           </Switch>
         </Router>
     </UserContext.Provider>

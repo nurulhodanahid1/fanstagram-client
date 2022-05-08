@@ -2,8 +2,17 @@
     font-size: 35px;
     text-decoration: none;
 }
+.nav-brand:hover{
+    color: #139CF7 !important;
+}
 .menu-item{
-    font-size: 20px;
     margin-right: 10px;
     text-decoration: none;
+}
+.menu-custom{
+    font-size: 18px;
+    font-weight: bold;
+}
+.menu-custom:hover{
+    color: #139CF7 !important;
 }

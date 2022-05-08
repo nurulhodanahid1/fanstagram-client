@@ -18,7 +18,6 @@ const CreatePost = () => {
     }, []);
     
     const filterEmail = user.find(e => e.email === signinUser.email);
-    console.log("emaildata", filterEmail)
 
     const onSubmit = data => {
         const postData = {
@@ -56,7 +55,6 @@ const CreatePost = () => {
             .catch(function (error) {
                 console.log(error);
             });
-
     };
 
 

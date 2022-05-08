@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import "./Signup.css";
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebase.config';
@@ -8,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { UserContext } from '../../../App';
+import appleLogo from './img/apple-button.png';
+import googlePlayLogo from './img/googleplay-button.png'
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -62,10 +65,11 @@ const Signup = () => {
                     setUser(newUserInfo);
                 });
         }
-        if(user.email && user.password && user.name){
+        if (user.email && user.password && user.name) {
             const postUser = {
                 email: user.email,
                 name: user.name,
+                imageURL: "",
                 following: [],
                 followers: []
             };
@@ -83,37 +87,70 @@ const Signup = () => {
     }
 
     return (
-        <div className="myCard">
+        <div style={{backgroundColor:"#f8f6f6"}} className="myCard">
             <Card className="auth-card">
                 <Card.Body>
-                    <h1>Instagram</h1>
+                    <h1 style={{ fontSize: "55px" }}>Instagram</h1>
                     <Form className="user-form" onSubmit={handleSubmit}>
                         <Form.Control className="form-control"
                             type="text"
                             placeholder="name"
                             name="name"
+                            required
                             onBlur={handleBlur}
                         />
                         <Form.Control className="form-control"
                             type="text"
                             placeholder="email"
                             name="email"
+                            required
                             onBlur={handleBlur}
                         />
                         <Form.Control className="form-control"
                             type="text"
                             name="password"
                             placeholder="password"
+                            required
                             onBlur={handleBlur}
                         />
-                        <Button type="submit" variant="primary">Signup</Button>
+                        <Button className="signup-button" type="submit">Signup</Button>
                     </Form>
-                    <h6>
-                        <Link to='/signin'>Already have an account?</Link>
-                    </h6>
+                    <div class="separator">
+                        <span></span>
+                        <div class="or">OR</div>
+                        <span></span>
+                    </div>
+                    <div className="fb-forgot">
+                        <div className='facebook-login-btn'>
+                            <h5>Login with Facebook</h5>
+                        </div>
+                        <div className='forgot'>
+                            <h6>Forgot your password?</h6>
+                        </div>
+                    </div>
+
                 </Card.Body>
             </Card>
+            <Card style={{marginTop:"2px"}} className='auth-card'>
+                <Card.Body>
+                    <div>"
+                        <h5 style={{ fontSize: "18px" }}>
+                            Already have an account? <Link style={{ textDecoration: "none" }} to='/signin'>
+                                <span className="underline" style={{ color: "#139CF7" }}>Login here</span></Link>
+                        </h5>
+                    </div>
+                </Card.Body>
+            </Card>
+
+            <div class="app-download flex direction-column align-items-center">
+                <h5 style={{ fontSize: "18px", marginBottom:"15px" }}>Get the app</h5>
+                <div class="flex justify-content-center">
+                    <img src={appleLogo} alt="" />
+                    <img src={googlePlayLogo} alt="" />
+                </div>
+            </div>
         </div>
+
     );
 };
 
