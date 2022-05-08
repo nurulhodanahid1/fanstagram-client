@@ -13,7 +13,7 @@ const Posts = () => {
 
     return (
         <div>
-            {posts.map(post => <Home post={post} key={post._id}></Home>)}
+            {posts.map(post => <Home setPosts={setPosts} post={post} key={post._id}></Home>)}
         </div>
     );
 };

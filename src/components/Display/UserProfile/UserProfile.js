@@ -32,6 +32,7 @@ const UserProfile = () => {
     }, [email]);
 
     const followUser = () => {
+        const filteredId = filterId?._id;
         const url = `http://localhost:5000/follow/${UserId}`;
         fetch(url, {
             method: 'PATCH',
@@ -40,11 +41,34 @@ const UserProfile = () => {
             },
             body: JSON.stringify({
                 followersEmail: signinUser.email,
-                followersId: filterId._id,
+                followersId: filteredId,
                 followingEmail: email
             })
         })
             .then(res => console.log("server like site response successfully", res))
+    }
+    const unfollowUser = () => {
+        const filteredId = filterId._id;
+        const url = `http://localhost:5000/unfollow/${UserId}`;
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                followersEmail: signinUser.email,
+                followersId: filteredId,
+                followingEmail: email
+            })
+        })
+            .then(res => console.log("server like site response successfully", res))
+    }
+
+    const showUpdatedData = () => {
+        const url = 'http://localhost:5000/allUsers';
+        fetch(url)
+        .then(res => res.json())
+        .then(data => setUser(data))
     }
 
     return (
@@ -61,7 +85,10 @@ const UserProfile = () => {
                             <Col><h5>{filterUser?.followers?.length} followers</h5></Col>
                             <Col><h5>{filterUser?.following?.length} following</h5></Col>
                         </Row>
-                        <input onClick={followUser} value="Follow" className="btn btn-primary" type="submit" />
+                        {
+                    filterUser?.followers?.includes(signinUser.email) ? <input onClick={() => { unfollowUser(); showUpdatedData();}} value="Unfollow" className="btn btn-primary" type="submit" />
+                        : <input onClick={() => { followUser(); showUpdatedData();}} value="Follow" className="btn btn-primary" type="submit" />
+                }
                     </Col>
                 </Row>
             </div>

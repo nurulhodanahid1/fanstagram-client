@@ -13,7 +13,7 @@ const Profile = () => {
             .then(response => response.json())
             .then(data => setUser(data))
     }, []);
-    
+
     const filterEmail = user.find(e => e.email === signinUser.email);
 
     useEffect(() => {
@@ -32,9 +32,9 @@ const Profile = () => {
                     <Col md={8}>
                         <h2>{filterEmail?.name}</h2>
                         <Row>
-                            <Col><h5>45 posts</h5></Col>
-                            <Col><h5>34 followers</h5></Col>
-                            <Col><h5>69 following</h5></Col>
+                            <Col><h5>{image?.length} posts</h5></Col>
+                            <Col><h5>{filterEmail?.followers?.length} followers</h5></Col>
+                            <Col><h5>{filterEmail?.following?.length} following</h5></Col>
                         </Row>
                     </Col>
                 </Row>
