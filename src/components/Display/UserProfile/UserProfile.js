@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { UserContext } from '../../../App';
 
 const UserProfile = () => {
@@ -23,12 +23,13 @@ const UserProfile = () => {
     console.log("filterUser", filterUser)
     const email = filterUser?.email;
     useEffect(() => {
-        const url = 'http://localhost:5000/profilePosts?email='+email;
+        const url = 'http://localhost:5000/profilePosts?email=' + email;
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 console.log("postData:", data)
-                setImage(data)})
+                setImage(data)
+            })
     }, [email]);
 
     const followUser = () => {
@@ -45,7 +46,13 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => console.log("server like site response successfully", res))
+            .then(res => res.json())
+            .then(result => {
+                const url = 'http://localhost:5000/allUsers';
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => setUser(data))
+            });
     }
 
     const followUsers = () => {
@@ -62,7 +69,13 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => console.log("server like site response successfully", res))
+            .then(res => res.json())
+            .then(result => {
+                const url = 'http://localhost:5000/allUsers';
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => setUser(data))
+            });
     }
 
     const unfollowUser = () => {
@@ -79,7 +92,13 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => console.log("server like site response successfully", res))
+            .then(res => res.json())
+            .then(result => {
+                const url = 'http://localhost:5000/allUsers';
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => setUser(data))
+            });
     }
 
     const unfollowUsers = () => {
@@ -96,34 +115,34 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => console.log("server like site response successfully", res))
-    }
-
-    const showUpdatedData = () => {
-        const url = 'http://localhost:5000/allUsers';
-        fetch(url)
-        .then(res => res.json())
-        .then(data => setUser(data))
+            .then(res => res.json())
+            .then(result => {
+                const url = 'http://localhost:5000/allUsers';
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => setUser(data))
+            });
     }
 
     return (
         <div>
             <div style={{ maxWidth: '700px', margin: "0 auto" }}>
                 <Row style={{ padding: "30px" }}>
-                    <Col md={4}>
-                        <img style={{ height: "180px", width: "180px", borderRadius: "90px" }} src="https://images.unsplash.com/photo-1651342997325-a5326de3da6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDEwfHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="" />
+                    <Col md={5}>
+                        <img style={{ height: "160px", width: "160px", borderRadius: "80px" }} src={filterUser?.imageURL} alt="" />
                     </Col>
-                    <Col md={8}>
-                        <h2>{filterUser?.name}</h2>
-                        <Row>
-                            <Col><h5>{image?.length} posts</h5></Col>
-                            <Col><h5>{filterUser?.followers?.length} followers</h5></Col>
-                            <Col><h5>{filterUser?.following?.length} following</h5></Col>
+                    <Col md={7}>
+                    <h2 style={{ fontSize: "33px", fontWeight: "400" }}>{filterUser?.name}</h2>
+                        <h2 style={{ fontSize: "19px", fontWeight: "700" }}>{filterUser?.email}</h2>
+                        <Row style={{ marginTop: "25px" }}>
+                            <Col><h5><span style={{ fontWeight: "700" }}>{image?.length}</span> <span style={{ fontSize: "16px" }}>posts</span></h5></Col>
+                            <Col><h5><span>{filterUser?.followers?.length}</span> <span style={{ fontSize: "16px" }}>followers</span></h5></Col>
+                            <Col><h5><span>{filterUser?.following?.length}</span> <span style={{ fontSize: "16px" }}>following</span></h5></Col>
                         </Row>
                         {
-                    filterUser?.followers?.includes(signinUser.email) ? <input onClick={() => { unfollowUser(); unfollowUsers(); showUpdatedData();}} value="Unfollow" className="btn btn-primary" type="submit" />
-                        : <input onClick={() => { followUser(); followUsers(); showUpdatedData();}} value="Follow" className="btn btn-primary" type="submit" />
-                }
+                            filterUser?.followers?.includes(signinUser.email) ? <Button style={{width:"25%"}} onClick={() => { unfollowUser(); unfollowUsers() }} className="btn btn-primary" type="submit">Unfollow</Button>
+                                : <Button style={{width:"25%"}} onClick={() => { followUser(); followUsers() }} className="btn btn-primary" type="submit">Follow</Button>
+                        }
                     </Col>
                 </Row>
             </div>

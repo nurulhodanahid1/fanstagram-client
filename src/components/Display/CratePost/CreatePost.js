@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Card, Col, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { UserContext } from '../../../App';
 
 const CreatePost = () => {
@@ -9,6 +9,7 @@ const CreatePost = () => {
     const [user, setUser] = useState([]);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [imageURL, setImageURL] = useState(null);
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         const url = 'http://localhost:5000/allUsers';
@@ -20,25 +21,27 @@ const CreatePost = () => {
     const filterEmail = user.find(e => e.email === signinUser.email);
 
     const onSubmit = data => {
-        const postData = {
-            title: data.title,
-            body: data.body,
-            imageURL: imageURL,
-            email: signinUser.email,
-            name: filterEmail.name,
-            postedBy: filterEmail._id,
-            likes: [],
-            comments: []
-        };
-        const url = `http://localhost:5000/addPosts`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(postData)
-        })
-            .then(res => console.log("server site response successfully", res))
+        if(imageURL){
+            const postData = {
+                title: data.title,
+                body: data.body,
+                imageURL: imageURL,
+                email: signinUser.email,
+                name: filterEmail.name,
+                postedBy: filterEmail._id,
+                likes: [],
+                comments: []
+            };
+            const url = `http://localhost:5000/addPosts`;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+                .then(res => setSuccess(true))
+        }
     };
 
     const handleImageUpload = event => {
@@ -59,7 +62,7 @@ const CreatePost = () => {
 
 
     return (
-        <div>
+        <div style={{ backgroundColor: "#f8f6f6", padding: "20px 0" }}>
             <Card style={{ margin: "20px auto", maxWidth: '700px', padding: "20px" }}>
                 <h3>Create a post</h3>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,8 +77,15 @@ const CreatePost = () => {
                         <Col><Form.Control type="file" onChange={handleImageUpload} /></Col>
                     </Row>
                     <Row>
-                        <Col><input className="btn btn-primary" type="submit" /></Col>
+                        <Col><Button style={{width:"20%"}} type="submit">Add post</Button></Col>
                     </Row>
+                    {
+                        success ? <Row>
+                            <Col><h6 style={{color:"#139CF7", marginTop:"10px"}}>Post Created successfully!!</h6></Col>
+                        </Row> : <Row>
+                            <Col><h6 style={{color:"#ED4956", marginTop:"10px"}}>Please attach image file</h6></Col>
+                        </Row>
+                    }
                 </form>
             </Card>
         </div>

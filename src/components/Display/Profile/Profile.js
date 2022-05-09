@@ -39,7 +39,13 @@ const Profile = () => {
                 userId: filterEmail._id
             })
         })
-            .then(res => console.log("server profile pic site response successfully", res))
+            .then(res => res.json())
+            .then(result => {
+                const url = 'http://localhost:5000/allUsers';
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => setUser(data))
+            });
     };
 
     const handleImageUpload = event => {
@@ -62,37 +68,32 @@ const Profile = () => {
             .then(res => res.json())
             .then(result => {
                 if (result) {
-                    console.log(result);
+                    const url = 'http://localhost:5000/profilePosts?email=' + signinUser.email;
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => setImage(data))
                 }
             })
     }
 
-    const showUpdatedData = () => {
-        const url = 'http://localhost:5000/allUsers';
-        fetch(url)
-            .then(response => response.json())
-            .then(data => setUser(data))
-    }
-
     return (
-        <div>
+        <div style={{ backgroundColor: "#f8f6f6", paddingTop: "20px" }}>
             <div style={{ maxWidth: '700px', margin: "0 auto" }}>
                 <Row style={{ padding: "30px" }}>
-                    <Col md={4}>
-                        <img style={{ height: "180px", width: "180px", borderRadius: "90px" }} src={filterEmail?.imageURL} alt="" />
+                    <Col md={5}>
+                        <img style={{ height: "160px", width: "160px", borderRadius: "80px" }} src={filterEmail?.imageURL} alt="" />
                         <form style={{ marginTop: "15px" }} onSubmit={handleSubmit(onSubmit)}>
-                            <h5>Upload Pic</h5>
                             <Form.Control type="file" onChange={handleImageUpload} />
-                            <input onClick={showUpdatedData} className="btn btn-primary" type="submit" />
+                            <Button className="btn btn-primary" type="submit">Upload profile Pic</Button>
                         </form>
                     </Col>
-                    <Col md={8}>
-                        <h2>{filterEmail?.name}</h2>
-                        <h4>{signinUser.email}</h4>
+                    <Col md={7}>
+                        <h2 style={{ fontSize: "33px", fontWeight: "400" }}>{filterEmail?.name}</h2>
+                        <h2 style={{ fontSize: "19px", fontWeight: "700" }}>{signinUser.email}</h2>
                         <Row style={{ marginTop: "25px" }}>
-                            <Col><h5>{image?.length} posts</h5></Col>
-                            <Col><h5>{filterEmail?.followers?.length} followers</h5></Col>
-                            <Col><h5>{filterEmail?.following?.length} following</h5></Col>
+                            <Col><h5><span style={{ fontWeight: "700" }}>{image?.length}</span> <span style={{ fontSize: "16px" }}>posts</span></h5></Col>
+                            <Col><h5><span>{filterEmail?.followers?.length}</span> <span style={{ fontSize: "16px" }}>followers</span></h5></Col>
+                            <Col><h5><span>{filterEmail?.following?.length}</span> <span style={{ fontSize: "16px" }}>following</span></h5></Col>
                         </Row>
                     </Col>
                 </Row>
@@ -101,12 +102,10 @@ const Profile = () => {
             <Row style={{ maxWidth: '800px', margin: "0 auto" }}>
                 {
                     image.map(data =>
-
-                        <Col key={data._id} md={4}>
-                            <Card>
+                        <Col style={{ marginBottom: "10px" }} key={data._id} md={4}>
+                            <Card style={{ padding: "10px" }}>
                                 <img style={{}} src={data.imageURL} alt="" />
-                                <h4>{data.title}</h4>
-                                <Button onClick={() => { handleDeletePost(data._id) }}>Delete</Button>
+                                <Button style={{backgroundColor:"#ED4956"}} onClick={() => { handleDeletePost(data._id) }}>Delete</Button>
                             </Card>
                         </Col>
                     )

@@ -115,9 +115,9 @@ const Signup = () => {
                         />
                         <Button className="signup-button" type="submit">Signup</Button>
                     </Form>
-                    <div class="separator">
+                    <div className="separator">
                         <span></span>
-                        <div class="or">OR</div>
+                        <div className="or">OR</div>
                         <span></span>
                     </div>
                     <div className="fb-forgot">
@@ -142,9 +142,9 @@ const Signup = () => {
                 </Card.Body>
             </Card>
 
-            <div class="app-download flex direction-column align-items-center">
+            <div className="app-download flex direction-column align-items-center">
                 <h5 style={{ fontSize: "18px", marginBottom:"15px" }}>Get the app</h5>
-                <div class="flex justify-content-center">
+                <div className="flex justify-content-center">
                     <img src={appleLogo} alt="" />
                     <img src={googlePlayLogo} alt="" />
                 </div>
