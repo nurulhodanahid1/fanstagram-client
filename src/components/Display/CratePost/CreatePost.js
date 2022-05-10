@@ -12,10 +12,11 @@ const CreatePost = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const url = 'http://localhost:5000/allUsers';
-        fetch(url)
+        const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+        const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => setUser(data))
+            return ()=>unsubscribe
     }, []);
     
     const filterEmail = user.find(e => e.email === signinUser.email);
@@ -32,7 +33,7 @@ const CreatePost = () => {
                 likes: [],
                 comments: []
             };
-            const url = `http://localhost:5000/addPosts`;
+            const url = `https://desolate-bayou-34351.herokuapp.com/addPosts`;
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -77,13 +78,13 @@ const CreatePost = () => {
                         <Col><Form.Control type="file" onChange={handleImageUpload} /></Col>
                     </Row>
                     <Row>
-                        <Col><Button style={{width:"20%"}} type="submit">Add post</Button></Col>
+                        <Col><Button className="signup-button" style={{width:"110px"}} type="submit">Add post</Button></Col>
                     </Row>
                     {
                         success ? <Row>
                             <Col><h6 style={{color:"#139CF7", marginTop:"10px"}}>Post Created successfully!!</h6></Col>
                         </Row> : <Row>
-                            <Col><h6 style={{color:"#ED4956", marginTop:"10px"}}>Please attach image file</h6></Col>
+                            <Col><h6><span style={{color:"#ED4956", marginTop:"10px"}}>Please attach image file </span>(Confirmation message will be given when post is uploaded)</h6></Col>
                         </Row>
                     }
                 </form>

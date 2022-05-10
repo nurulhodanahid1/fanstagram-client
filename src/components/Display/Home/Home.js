@@ -17,7 +17,7 @@ const Home = (props) => {
     const setPosts = props.setPosts;
 
     useEffect(() => {
-        const url = 'http://localhost:5000/allUsers';
+        const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
         fetch(url)
             .then(response => response.json())
             .then(data => setUser(data))
@@ -26,7 +26,7 @@ const Home = (props) => {
     const filterEmail = user.find(e => e.email === signinUser.email);
 
     useEffect(() => {
-        const url = `http://localhost:5000/post/${_id}`;
+        const url = `https://desolate-bayou-34351.herokuapp.com/post/${_id}`;
         fetch(url)
             .then(res => res.json())
             .then(data => {
@@ -41,7 +41,7 @@ const Home = (props) => {
             comment: data.comment,
             uniqueKey: Date.now() + Math.random()
         };
-        const url = `http://localhost:5000/comment/${singlePost._id}`;
+        const url = `https://desolate-bayou-34351.herokuapp.com/comment/${singlePost._id}`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -51,7 +51,7 @@ const Home = (props) => {
         })
             .then(res => res.json())
             .then(result => {
-                fetch('http://localhost:5000/allPosts')
+                fetch('https://desolate-bayou-34351.herokuapp.com/allPosts')
                     .then(response => response.json())
                     .then(data => setPosts(data))
             });
@@ -61,7 +61,7 @@ const Home = (props) => {
         const likeData = {
             email: signinUser.email
         };
-        const url = `http://localhost:5000/like/${singlePost._id}`;
+        const url = `https://desolate-bayou-34351.herokuapp.com/like/${singlePost._id}`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -71,7 +71,7 @@ const Home = (props) => {
         })
             .then(res => res.json())
             .then(result => {
-                fetch('http://localhost:5000/allPosts')
+                fetch('https://desolate-bayou-34351.herokuapp.com/allPosts')
                     .then(response => response.json())
                     .then(data => setPosts(data))
             });
@@ -80,7 +80,7 @@ const Home = (props) => {
         const likeData = {
             email: signinUser.email
         };
-        const url = `http://localhost:5000/unlike/${singlePost._id}`;
+        const url = `https://desolate-bayou-34351.herokuapp.com/unlike/${singlePost._id}`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -90,7 +90,7 @@ const Home = (props) => {
         })
             .then(res => res.json())
             .then(result => {
-                fetch('http://localhost:5000/allPosts')
+                fetch('https://desolate-bayou-34351.herokuapp.com/allPosts')
                     .then(response => response.json())
                     .then(data => setPosts(data))
             });
@@ -103,7 +103,7 @@ const Home = (props) => {
                 <img src={imageURL} alt="" />
                 <div className="icon" style={{ display: "flex", margin: "10px 0 5px 0", fontSize: "26px" }}>
                     {
-                        likes.includes(signinUser.email) ? <FontAwesomeIcon className="love-hover" onClick={unlikePostUpdate} style={{ color:"#ED4956", fontSize:"33px" }} icon={faHeart} />
+                        likes?.includes(signinUser.email) ? <FontAwesomeIcon className="love-hover" onClick={unlikePostUpdate} style={{ color:"#ED4956", fontSize:"33px" }} icon={faHeart} />
                             : <FontAwesomeIcon className="love-hover" style={{ color:"#bdc3c7", fontSize:"33px"}} onClick={likePostUpdate} icon={faHeart} />
                     }
                 </div>
@@ -122,7 +122,7 @@ const Home = (props) => {
                         {...register("comment")}
                         placeholder="Write a comment"
                     />
-                    <Button style={{width:"16%"}} type="submit">Add</Button>
+                    <Button className="signup-button" style={{width:"90px"}} type="submit">Add</Button>
                 </form>
             </Card>
         </div>

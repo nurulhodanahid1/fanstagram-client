@@ -39,7 +39,7 @@
     text-decoration: underline;
 }
 
-button {
+.signup-button {
     background-color: #139CF7 !important;
     border-radius: 5px;
     color: #fff;

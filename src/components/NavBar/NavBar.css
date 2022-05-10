@@ -16,3 +16,10 @@
 .menu-custom:hover{
     color: #139CF7 !important;
 }
+
+
+@media all and (max-width: 991px){
+    #navbar-button{
+        width: 90px !important;
+    }
+}

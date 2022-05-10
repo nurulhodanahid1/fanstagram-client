@@ -73,7 +73,7 @@ const Signup = () => {
                 following: [],
                 followers: []
             };
-            const url = `http://localhost:5000/addUsers`;
+            const url = `https://desolate-bayou-34351.herokuapp.com/addUsers`;
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -90,7 +90,7 @@ const Signup = () => {
         <div style={{backgroundColor:"#f8f6f6"}} className="myCard">
             <Card className="auth-card">
                 <Card.Body>
-                    <h1 style={{ fontSize: "55px" }}>Instagram</h1>
+                    <h1 style={{ fontSize: "50px" }}>FanstaGram</h1>
                     <Form className="user-form" onSubmit={handleSubmit}>
                         <Form.Control className="form-control"
                             type="text"

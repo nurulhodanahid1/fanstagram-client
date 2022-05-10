@@ -69,7 +69,7 @@ const Signin = () => {
         <div style={{backgroundColor:"#f8f6f6"}} className="myCard">
             <Card className="auth-card">
                 <Card.Body>
-                    <h1>Instagram</h1>
+                    <h1 style={{ fontSize: "50px" }}>FanstaGram</h1>
                     <Form className="user-form" onSubmit={handleSubmit}>
                         <Form.Control className="form-control"
                             type="text"
@@ -85,7 +85,7 @@ const Signin = () => {
                             required
                             onBlur={handleBlur}
                         />
-                        <Button type="submit" variant="primary">Signin</Button>
+                        <Button className="signup-button" type="submit" variant="primary">Signin</Button>
                     </Form>
                     <div className="separator">
                         <span></span>
