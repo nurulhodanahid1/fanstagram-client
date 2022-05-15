@@ -11,7 +11,7 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+        const url = 'http://localhost:5000/allUsers';
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -23,16 +23,16 @@ const UserProfile = () => {
 
     const filterUser = user.find(item => item._id === UserId);
     const filterId = user.find(item => item.email === signinUser.email)
-    console.log("filterId:", filterId);
+    // console.log("filterId:", filterId);
 
-    console.log("filterUser", filterUser)
+    // console.log("filterUser", filterUser)
     const email = filterUser?.email;
     useEffect(() => {
-        const url = 'https://desolate-bayou-34351.herokuapp.com/profilePosts?email=' + email;
+        const url = 'http://localhost:5000/profilePosts?email=' + email;
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log("postData:", data)
+                // console.log("postData:", data)
                 setImage(data)
             })
         return () => unsubscribe;
@@ -40,7 +40,7 @@ const UserProfile = () => {
 
     const followUser = () => {
         const filteredId = filterId?._id;
-        const url = `https://desolate-bayou-34351.herokuapp.com/follow/${UserId}`;
+        const url = `http://localhost:5000/follow/${UserId}`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -52,18 +52,18 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => res.json())
-            .then(result => {
-                const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+            .then(res => {
+                const url = 'http://localhost:5000/allUsers';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))
-            });
+            })
+
     }
 
     const followUsers = () => {
         const filteredId = filterId?._id;
-        const url = `https://desolate-bayou-34351.herokuapp.com/follow`;
+        const url = `http://localhost:5000/follow`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -75,18 +75,17 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => res.json())
-            .then(result => {
-                const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+            .then(res => {
+                const url = 'http://localhost:5000/allUsers';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))
-            });
+            })
     }
 
     const unfollowUser = () => {
         const filteredId = filterId._id;
-        const url = `https://desolate-bayou-34351.herokuapp.com/unfollow/${UserId}`;
+        const url = `http://localhost:5000/unfollow/${UserId}`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -98,18 +97,18 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => res.json())
-            .then(result => {
-                const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+            .then(res => {
+                const url = 'http://localhost:5000/allUsers';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))
-            });
+            })
+
     }
 
     const unfollowUsers = () => {
         const filteredId = filterId._id;
-        const url = `https://desolate-bayou-34351.herokuapp.com/unfollow`;
+        const url = `http://localhost:5000/unfollow`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -121,13 +120,12 @@ const UserProfile = () => {
                 followingEmail: email
             })
         })
-            .then(res => res.json())
-            .then(result => {
-                const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+            .then(res => {
+                const url = 'http://localhost:5000/allUsers';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))
-            });
+            })
     }
 
     return (
@@ -155,7 +153,7 @@ const UserProfile = () => {
                                     <Col><h5><span>{filterUser?.following?.length}</span> <span style={{ fontSize: "16px" }}>following</span></h5></Col>
                                 </Row>
                                 {
-                                    filterUser?.followers?.includes(signinUser.email) ? <Button className="signup-button" style={{ width: "90px" }} onClick={() => { unfollowUser(); unfollowUsers() }}  type="submit">Unfollow</Button>
+                                    filterUser?.followers?.includes(signinUser.email) ? <Button className="signup-button" style={{ width: "90px" }} onClick={() => { unfollowUser(); unfollowUsers() }} type="submit">Unfollow</Button>
                                         : <Button className="signup-button" style={{ width: "90px" }} onClick={() => { followUser(); followUsers() }} type="submit">Follow</Button>
                                 }
                             </Col>

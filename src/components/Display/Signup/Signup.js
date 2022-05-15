@@ -17,6 +17,7 @@ if (!firebase.apps.length) {
 }
 
 const Signup = () => {
+    const [signupError, setSignupError] = useState(false);
     const [user, setUser] = useState({
         isSignedIn: false,
         name: "",
@@ -31,15 +32,57 @@ const Signup = () => {
     const location = useLocation();
     let { from } = location.state || { from: { pathname: "/" } };
 
+    const fbProvider = new firebase.auth.FacebookAuthProvider();
+    const fbSignIn = () => {
+    firebase.auth().signInWithPopup(fbProvider)
+      .then((result) => {
+        const { displayName, email, photoURL } = result.user;
+        const signedinUser = {
+          isSignedIn: true,
+          name: displayName,
+          email: email,
+        }
+        setUser(signedinUser);
+        setSigninUser(signedinUser);
+        history.replace(from);
+        const user = result.user;
+        // console.log("after fb sign in", user)
+        if(email && displayName){
+            const postUser = {
+                email: email,
+                name: displayName,
+                imageURL: photoURL,
+                following: [],
+                followers: []
+            };
+            const url = `http://localhost:5000/addUsers`;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(postUser)
+            })
+                .then(res => console.log("server site response successfully", res));
+        }
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  }
+
     const handleBlur = (e) => {
         let isFieldValid = true;
         if (e.target.name === "email") {
             isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
         }
         if (e.target.name === "password") {
-            const isPasswordValid = e.target.value.length >= 6;
+            const isPasswordLengthM = e.target.value.length >= 6;
+            const isPasswordLengthMx = e.target.value.length <=10
             const passwordHasNumber = /\d{1}/.test(e.target.value);   // /\d{1}.test(1) = true;
-            isFieldValid = isPasswordValid && passwordHasNumber;
+            isFieldValid = isPasswordLengthM && isPasswordLengthMx && passwordHasNumber;
         }
         if (isFieldValid) {
             const newUserInfo = { ...user };
@@ -48,7 +91,7 @@ const Signup = () => {
         }
     }
     const handleSubmit = (e) => {
-        if (user.email && user.password) {
+        if (user.email && user.password && user.name) {
             firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
                 .then((res) => {
                     const newUserInfo = { ...user };
@@ -64,8 +107,7 @@ const Signup = () => {
                     newUserInfo.success = false;
                     setUser(newUserInfo);
                 });
-        }
-        if (user.email && user.password && user.name) {
+
             const postUser = {
                 email: user.email,
                 name: user.name,
@@ -73,7 +115,7 @@ const Signup = () => {
                 following: [],
                 followers: []
             };
-            const url = `https://desolate-bayou-34351.herokuapp.com/addUsers`;
+            const url = `http://localhost:5000/addUsers`;
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -82,26 +124,28 @@ const Signup = () => {
                 body: JSON.stringify(postUser)
             })
                 .then(res => console.log("server site response successfully", res));
+        }else{
+            setSignupError(true);
         }
         e.preventDefault(); // loading off
     }
 
     return (
-        <div style={{backgroundColor:"#f8f6f6"}} className="myCard">
+        <div style={{ backgroundColor: "#f8f6f6" }} className="myCard">
             <Card className="auth-card">
                 <Card.Body>
                     <h1 style={{ fontSize: "50px" }}>FanstaGram</h1>
                     <Form className="user-form" onSubmit={handleSubmit}>
                         <Form.Control className="form-control"
                             type="text"
-                            placeholder="name"
+                            placeholder="your full name"
                             name="name"
                             required
                             onBlur={handleBlur}
                         />
                         <Form.Control className="form-control"
                             type="text"
-                            placeholder="email"
+                            placeholder="email: example@gmail.com"
                             name="email"
                             required
                             onBlur={handleBlur}
@@ -109,12 +153,15 @@ const Signup = () => {
                         <Form.Control className="form-control"
                             type="text"
                             name="password"
-                            placeholder="password"
+                            placeholder="password: password contains 6-10 characters"
                             required
                             onBlur={handleBlur}
                         />
                         <Button className="signup-button" type="submit">Signup</Button>
                     </Form>
+                    {
+                        signupError && <p style={{color:"#ED4956", marginTop: "5px" }}>Email or Password format in not valid or Password must have a number</p>
+                    }
                     <div className="separator">
                         <span></span>
                         <div className="or">OR</div>
@@ -122,7 +169,7 @@ const Signup = () => {
                     </div>
                     <div className="fb-forgot">
                         <div className='facebook-login-btn'>
-                            <h5>Login with Facebook</h5>
+                            <h5 onClick={fbSignIn}>Login with Facebook</h5>
                         </div>
                         <div className='forgot'>
                             <h6>Forgot your password?</h6>
@@ -131,7 +178,7 @@ const Signup = () => {
 
                 </Card.Body>
             </Card>
-            <Card style={{marginTop:"2px"}} className='auth-card'>
+            <Card style={{ marginTop: "2px" }} className='auth-card'>
                 <Card.Body>
                     <div>"
                         <h5 style={{ fontSize: "18px" }}>
@@ -143,7 +190,7 @@ const Signup = () => {
             </Card>
 
             <div className="app-download flex direction-column align-items-center">
-                <h5 style={{ fontSize: "18px", marginBottom:"15px" }}>Get the app</h5>
+                <h5 style={{ fontSize: "18px", marginBottom: "15px" }}>Get the app</h5>
                 <div className="flex justify-content-center">
                     <img src={appleLogo} alt="" />
                     <img src={googlePlayLogo} alt="" />

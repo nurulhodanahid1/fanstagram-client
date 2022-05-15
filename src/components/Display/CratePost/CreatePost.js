@@ -11,8 +11,10 @@ const CreatePost = () => {
     const [imageURL, setImageURL] = useState(null);
     const [success, setSuccess] = useState(false);
 
+    // console.log(imageURL)
+
     useEffect(() => {
-        const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+        const url = 'http://localhost:5000/allUsers';
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => setUser(data))
@@ -33,7 +35,7 @@ const CreatePost = () => {
                 likes: [],
                 comments: []
             };
-            const url = `https://desolate-bayou-34351.herokuapp.com/addPosts`;
+            const url = `http://localhost:5000/addPosts`;
             fetch(url, {
                 method: 'POST',
                 headers: {

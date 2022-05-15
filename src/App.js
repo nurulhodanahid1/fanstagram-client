@@ -8,8 +8,8 @@ import Signup from "./components/Display/Signup/Signup";
 import Profile from "./components/Display/Profile/Profile";
 import CreatePost from "./components/Display/CratePost/CreatePost";
 import PrivateRoute from "./components/Display/PrivateRoute/PrivateRoute";
-import Posts from "./components/Display/Posts";
 import UserProfile from "./components/Display/UserProfile/UserProfile";
+import Home from "./components/Display/Home/Home";
 
 export const UserContext = createContext();
 
@@ -38,7 +38,7 @@ function App() {
               <UserProfile></UserProfile>
             </PrivateRoute>
             <PrivateRoute exact path="/">
-              <Posts></Posts>
+              <Home></Home>
             </PrivateRoute>
           </Switch>
         </Router>

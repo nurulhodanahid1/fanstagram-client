@@ -65,6 +65,48 @@ const Signin = () => {
         e.preventDefault(); // loading off
     }
 
+    const fbProvider = new firebase.auth.FacebookAuthProvider();
+    const fbSignIn = () => {
+    firebase.auth().signInWithPopup(fbProvider)
+      .then((result) => {
+        const { displayName, email, photoURL } = result.user;
+        const signedinUser = {
+          isSignedIn: true,
+          name: displayName,
+          email: email,
+        }
+        setUser(signedinUser);
+        setSigninUser(signedinUser);
+        history.replace(from);
+        const user = result.user;
+        // console.log("after fb sign in", user)
+        if(email && displayName){
+            const postUser = {
+                email: email,
+                name: displayName,
+                imageURL: photoURL,
+                following: [],
+                followers: []
+            };
+            const url = `http://localhost:5000/addUsers`;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(postUser)
+            })
+                .then(res => console.log("server site response successfully", res));
+        }
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  }
+
+
     return (
         <div style={{backgroundColor:"#f8f6f6"}} className="myCard">
             <Card className="auth-card">
@@ -73,14 +115,14 @@ const Signin = () => {
                     <Form className="user-form" onSubmit={handleSubmit}>
                         <Form.Control className="form-control"
                             type="text"
-                            placeholder="email"
+                            placeholder="your email"
                             name="email"
                             required
                             onBlur={handleBlur}
                         />
                         <Form.Control className="form-control"
                             type="text"
-                            placeholder="password"
+                            placeholder="your password"
                             name="password"
                             required
                             onBlur={handleBlur}
@@ -94,7 +136,7 @@ const Signin = () => {
                     </div>
                     <div className="fb-forgot">
                         <div className='facebook-login-btn'>
-                            <h5>Login with Facebook</h5>
+                            <h5 onClick={fbSignIn}>Login with Facebook</h5>
                         </div>
                         <div className='forgot'>
                             <h6>Forgot your password?</h6>

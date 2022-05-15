@@ -15,7 +15,7 @@ const Profile = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+        const url = 'http://localhost:5000/allUsers';
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -28,7 +28,7 @@ const Profile = () => {
     const filterEmail = user.find(e => e.email === signinUser.email);
 
     useEffect(() => {
-        const url = 'https://desolate-bayou-34351.herokuapp.com/profilePosts?email=' + signinUser.email;
+        const url = 'http://localhost:5000/profilePosts?email=' + signinUser.email;
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => setImage(data))
@@ -37,7 +37,7 @@ const Profile = () => {
 
     const onSubmit = () => {
         if (imageURL) {
-            const url = `https://desolate-bayou-34351.herokuapp.com/addProfilePic`;
+            const url = `http://localhost:5000/addProfilePic`;
             fetch(url, {
                 method: 'PATCH',
                 headers: {
@@ -48,17 +48,15 @@ const Profile = () => {
                     userId: filterEmail._id
                 })
             })
-                .then(res => res.json())
-                .then(result => {
-                    const url = 'https://desolate-bayou-34351.herokuapp.com/allUsers';
+                .then(res => {
+                    const url = 'http://localhost:5000/allUsers';
                     const unsubscribe = fetch(url)
                         .then(response => response.json())
                         .then(data => {
                             setUser(data)
                             setSuccess(true)
                         })
-                    return () => unsubscribe;
-                });
+                    return () => unsubscribe;})
         }
     };
 
@@ -76,13 +74,13 @@ const Profile = () => {
     };
 
     const handleDeletePost = (id) => {
-        fetch(`https://desolate-bayou-34351.herokuapp.com/deletePost/${id}`, {
+        window.confirm('Are you sure you wish to delete this item?') &&  fetch(`http://localhost:5000/deletePost/${id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
             .then(result => {
                 if (result) {
-                    const url = 'https://desolate-bayou-34351.herokuapp.com/profilePosts?email=' + signinUser.email;
+                    const url = 'http://localhost:5000/profilePosts?email=' + signinUser.email;
                     const unsubscribe = fetch(url)
                         .then(response => response.json())
                         .then(data => {
