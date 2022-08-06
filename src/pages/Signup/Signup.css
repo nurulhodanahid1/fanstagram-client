@@ -1,0 +1,72 @@
+.separator{
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+}
+.separator span {
+    background-color: #9c9b9b;
+    height: 1px;
+    width: calc(100% - 10px);
+}
+.separator .or {
+    color: #4e4d4d;
+    font-weight: bold;
+}
+.separator { padding: 0 20px; }
+.separator span:first-child { margin-right: 10px;}
+.separator span:last-child { margin-left: 10px;}
+
+.facebook-login-btn h5{
+    margin-top: 28px;
+    color: #139CF7;
+    font-size: 19px;
+}
+.facebook-login-btn:hover{
+    cursor: pointer;
+    color: #0099ff;
+}
+.forgot h6{
+    margin-top: 13px;
+    font-size: 12px;
+    color: #3851A5;
+}
+.forgot h6:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.underline:hover{
+    text-decoration: underline;
+}
+
+.signup-button {
+    background-color: #139CF7 !important;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold !important;
+    height: 40px;
+    width: 100%;
+}
+
+.app-download { padding: 15px; }
+.app-download img { 
+    height: 40px; 
+    margin: 0 8px;
+}
+.flex {
+    display: flex;
+}
+.direction-column {
+    flex-direction: column;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.align-items-center {
+    align-items: center;
+}
+
+
+.app-download img:hover{
+    cursor: pointer;
+}

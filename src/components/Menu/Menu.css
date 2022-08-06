@@ -1,4 +1,4 @@
-.nav-brand{
+/* .nav-brand{
     font-size: 30px;
     text-decoration: none;
     color: #000;
@@ -16,4 +16,28 @@
 }
 .menu-item:hover{
     color: #FC7FB2 !important;
+} */
+
+.nav-brand{
+    font-size: 35px;
+    text-decoration: none;
+    color: #139CF7 !important;
+}
+
+.menu-item{
+    margin-right: 45px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.menu-item:hover{
+    color: #139CF7 !important;
+}
+
+
+@media all and (max-width: 991px){
+    #navbar-button{
+        width: 90px !important;
+    }
 }

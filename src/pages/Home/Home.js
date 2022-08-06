@@ -8,7 +8,7 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = 'http://localhost:5000/posts';
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/posts';
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -22,7 +22,7 @@ const Home = () => {
             {
                 loading ?
                     <div style={{ backgroundColor: "#f8f6f6", padding: "20px 0", textAlign: "center" }}>
-                            <Spinner className="loading text-center" animation="border" variant="warning" />
+                            <Spinner className="loading text-center" animation="border" variant="primary" />
                     </div>
                     :
                     posts.map(post => <Posts loading={loading} posts={posts} setPosts={setPosts} post={post} key={post._id}></Posts>)

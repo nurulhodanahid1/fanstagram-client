@@ -21,7 +21,7 @@ const Posts = (props) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const url = 'http://localhost:5000/users';
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
         fetch(url)
             .then(response => response.json())
             .then(data => setUser(data))
@@ -30,7 +30,7 @@ const Posts = (props) => {
     const findUser = user.find(e => e.email === signinUser.email);
 
     useEffect(() => {
-        const url = `http://localhost:5000/post/${_id}`;
+        const url = `https://aqueous-scrubland-65265.herokuapp.com/post/${_id}`;
         fetch(url)
             .then(res => res.json())
             .then(data => {
@@ -46,7 +46,7 @@ const Posts = (props) => {
                 comment: data.comment,
                 uniqueKey: Date.now() + Math.random()
             };
-            const url = `http://localhost:5000/comment/${singlePost._id}`;
+            const url = `https://aqueous-scrubland-65265.herokuapp.com/comment/${singlePost._id}`;
             fetch(url, {
                 method: 'PATCH',
                 headers: {
@@ -54,7 +54,7 @@ const Posts = (props) => {
                 },
                 body: JSON.stringify(commentData)
             })
-                .then(res => fetch('http://localhost:5000/posts')
+                .then(res => fetch('https://aqueous-scrubland-65265.herokuapp.com/posts')
                     .then(response => response.json())
                     .then(data => {
                         setPosts(data)
@@ -71,7 +71,7 @@ const Posts = (props) => {
             const likeData = {
                 email: signinUser.email
             };
-            const url = `http://localhost:5000/like/${singlePost._id}`;
+            const url = `https://aqueous-scrubland-65265.herokuapp.com/like/${singlePost._id}`;
             fetch(url, {
                 method: 'PATCH',
                 headers: {
@@ -80,7 +80,7 @@ const Posts = (props) => {
                 body: JSON.stringify(likeData)
             })
                 .then(res =>
-                    fetch('http://localhost:5000/posts')
+                    fetch('https://aqueous-scrubland-65265.herokuapp.com/posts')
                         .then(response => response.json())
                         .then(data => setPosts(data)))
         }
@@ -93,7 +93,7 @@ const Posts = (props) => {
             const likeData = {
                 email: signinUser.email
             };
-            const url = `http://localhost:5000/unlike/${singlePost._id}`;
+            const url = `https://aqueous-scrubland-65265.herokuapp.com/unlike/${singlePost._id}`;
             fetch(url, {
                 method: 'PATCH',
                 headers: {
@@ -102,7 +102,7 @@ const Posts = (props) => {
                 body: JSON.stringify(likeData)
             })
                 .then(res =>
-                    fetch('http://localhost:5000/posts')
+                    fetch('https://aqueous-scrubland-65265.herokuapp.com/posts')
                         .then(response => response.json())
                         .then(data => setPosts(data)))
         } else {
@@ -112,12 +112,12 @@ const Posts = (props) => {
 
     return (
         <div style={{ backgroundColor: "#f8f6f6", padding: "20px 0" }}>
-            <Card style={{ margin: "0 auto", maxWidth: '700px', padding: "20px" }}>
+            <Card style={{ margin: "0 auto", maxWidth: '600px', padding: "20px" }}>
                 <h4 style={{ marginBottom: "-5px", fontSize: "20px" }}><Link className='posted-by' style={{ textDecoration: "none" }} to={postedBy !== findUser?._id ? `/userProfile/${postedBy}` : "/profile"}>{name}</Link></h4>
                 <hr />
                 <h5 style={{ fontWeight: "500", fontSize: "16px" }}>{title}</h5>
                 <p>{description}</p>
-                <img style={{ display: "inline-block", marginBottom: "10px" }} src={imageURL} alt="" />
+                <img height="380" style={{ display: "inline-block", marginBottom: "10px" }} src={imageURL} alt="" />
                 <div className="icon" style={{ display: "flex", margin: "10px 0 5px 0", fontSize: "26px" }}>
                     {
                         likes?.includes(signinUser.email) ? <FontAwesomeIcon onClick={unlikePostUpdate} style={{ color: "#ED4956", fontSize: "33px", cursor: "pointer" }} icon={faHeart} />
@@ -145,7 +145,7 @@ const Posts = (props) => {
                         required
                     />
                     {
-                        loading ? <Spinner style={{ marginLeft: "20px" }} className="loading text-center" animation="border" variant="warning" />
+                        loading ? <Spinner style={{ marginLeft: "20px" }} className="loading text-center" animation="border" variant="primary" />
                             : <button className="common-button" type="submit">Add</button>
                     }
                     {

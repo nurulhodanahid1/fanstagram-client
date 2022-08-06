@@ -15,7 +15,7 @@ const CreatePost = () => {
 
 
     useEffect(() => {
-        const url = 'http://localhost:5000/users';
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
         fetch(url)
             .then(response => response.json())
             .then(data => setUser(data))
@@ -37,7 +37,7 @@ const CreatePost = () => {
                 likes: [],
                 comments: []
             };
-            const url = `http://localhost:5000/addPosts`;
+            const url = `https://aqueous-scrubland-65265.herokuapp.com/addPosts`;
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -73,7 +73,7 @@ const CreatePost = () => {
     return (
         <div style={{ backgroundColor: "#f8f6f6", padding: "20px 0" }}>
             <Card style={{ margin: "20px auto", maxWidth: '700px', padding: "20px" }}>
-                <h1 style={{ textAlign: "center", marginBottom: "50px" }}>Create a post</h1>
+                <h1 style={{ textAlign: "center", marginBottom: "50px", color: "#139CF7" }}>Create a post</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Row>
                         <h6>Upload Image <span style={{ color: "#fc7fb2", marginTop: "10px" }}>(Please attach image file)</span></h6>

@@ -12,7 +12,7 @@ const Menu = () => {
     const [user, setUser] = useState([]);
 
     useEffect(() => {
-        const url = 'http://localhost:5000/users';
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -30,13 +30,12 @@ const Menu = () => {
                         <Nav className="justify-content-center align-items-center">
                             <Link className="menu-item" to="/home">Home</Link>
                             <Link className="menu-item" to="/createPost">Add Post</Link>
-                            <Link className="menu-item menu-custom" to="/profile">Profile</Link>
-                            {
-                                signinUser.email ? <Link className="menu-btn menu-item" onClick={() => setSigninUser({})} to="/signin">Log out</Link>
-                                    : <Link className="menu-item menu-item" to="signin">Log in</Link>
-                            }
                             {findUser ? <Link className="menu-item" to="/profile">{findUser?.name}</Link>
                             : <Link className="menu-item" to="/profile">{signinUser.name}</Link>}
+                            {
+                                signinUser.email ? <Link className="menu-btn menu-item" onClick={() => setSigninUser({})} to="/signin">Log out</Link>
+                                    : <Link className="menu-item" to="signin">Log in</Link>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

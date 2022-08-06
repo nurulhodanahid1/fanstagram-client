@@ -11,7 +11,7 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = 'http://localhost:5000/users';
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -28,7 +28,7 @@ const UserProfile = () => {
     // console.log("filterUser", filterUser)
     const email = filterUser?.email;
     useEffect(() => {
-        const url = 'http://localhost:5000/profilePosts?email=' + email;
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/profilePosts?email=' + email;
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -40,7 +40,7 @@ const UserProfile = () => {
 
     const followUser = () => {
         const filteredId = filterId?._id;
-        const url = `http://localhost:5000/follow/${UserId}`;
+        const url = `https://aqueous-scrubland-65265.herokuapp.com/follow/${UserId}`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -53,7 +53,7 @@ const UserProfile = () => {
             })
         })
             .then(res => {
-                const url = 'http://localhost:5000/users';
+                const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))
@@ -63,7 +63,7 @@ const UserProfile = () => {
 
     const followUsers = () => {
         const filteredId = filterId?._id;
-        const url = `http://localhost:5000/follow`;
+        const url = `https://aqueous-scrubland-65265.herokuapp.com/follow`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -76,7 +76,7 @@ const UserProfile = () => {
             })
         })
             .then(res => {
-                const url = 'http://localhost:5000/users';
+                const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))
@@ -85,7 +85,7 @@ const UserProfile = () => {
 
     const unfollowUser = () => {
         const filteredId = filterId._id;
-        const url = `http://localhost:5000/unfollow/${UserId}`;
+        const url = `https://aqueous-scrubland-65265.herokuapp.com/unfollow/${UserId}`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -98,7 +98,7 @@ const UserProfile = () => {
             })
         })
             .then(res => {
-                const url = 'http://localhost:5000/users';
+                const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))
@@ -108,7 +108,7 @@ const UserProfile = () => {
 
     const unfollowUsers = () => {
         const filteredId = filterId._id;
-        const url = `http://localhost:5000/unfollow`;
+        const url = `https://aqueous-scrubland-65265.herokuapp.com/unfollow`;
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -121,7 +121,7 @@ const UserProfile = () => {
             })
         })
             .then(res => {
-                const url = 'http://localhost:5000/users';
+                const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
                 fetch(url)
                     .then(res => res.json())
                     .then(data => setUser(data))

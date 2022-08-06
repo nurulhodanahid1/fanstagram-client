@@ -15,7 +15,7 @@ const Profile = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const url = 'http://localhost:5000/users';
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -28,7 +28,7 @@ const Profile = () => {
     const filterEmail = user.find(e => e.email === signinUser.email);
 
     useEffect(() => {
-        const url = 'http://localhost:5000/profilePosts?email=' + signinUser.email;
+        const url = 'https://aqueous-scrubland-65265.herokuapp.com/profilePosts?email=' + signinUser.email;
         const unsubscribe = fetch(url)
             .then(response => response.json())
             .then(data => setImage(data))
@@ -37,7 +37,7 @@ const Profile = () => {
 
     const onSubmit = () => {
         if (imageURL) {
-            const url = `http://localhost:5000/addProfilePic`;
+            const url = `https://aqueous-scrubland-65265.herokuapp.com/addProfilePic`;
             fetch(url, {
                 method: 'PATCH',
                 headers: {
@@ -49,7 +49,7 @@ const Profile = () => {
                 })
             })
                 .then(res => {
-                    const url = 'http://localhost:5000/users';
+                    const url = 'https://aqueous-scrubland-65265.herokuapp.com/users';
                     const unsubscribe = fetch(url)
                         .then(response => response.json())
                         .then(data => {
@@ -74,13 +74,13 @@ const Profile = () => {
     };
 
     const handleDeletePost = (id) => {
-        window.confirm('Are you sure you wish to delete this item?') &&  fetch(`http://localhost:5000/deletePost/${id}`, {
+        window.confirm('Are you sure you wish to delete this item?') &&  fetch(`https://aqueous-scrubland-65265.herokuapp.com/deletePost/${id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
             .then(result => {
                 if (result) {
-                    const url = 'http://localhost:5000/profilePosts?email=' + signinUser.email;
+                    const url = 'https://aqueous-scrubland-65265.herokuapp.com/profilePosts?email=' + signinUser.email;
                     const unsubscribe = fetch(url)
                         .then(response => response.json())
                         .then(data => {

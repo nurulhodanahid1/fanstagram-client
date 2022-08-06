@@ -2,7 +2,10 @@ import React, { useContext, useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { UserContext } from '../../App';
+import './Signup.css'
 import Footar from '../../components/Footar/Footar';
+import appleLogo from './img/apple-button.png';
+import googlePlayLogo from './img/googleplay-button.png';
 
 const Signup = () => {
     const [user, setUser] = useState({
@@ -41,7 +44,7 @@ const Signup = () => {
     const handleSignup = (e) => {
         if (user.name && user.email && user.password) {
             seteamilpassError(false);
-            const url = `http://localhost:5000/signup`;
+            const url = `https://aqueous-scrubland-65265.herokuapp.com/signup`;
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -68,7 +71,7 @@ const Signup = () => {
             <div style={{ backgroundColor: "#f8f6f6", padding: "20px" }}>
                 <Card className="auth-card">
                     <Card.Body>
-                        <h1 style={{ fontSize: "50px", marginBottom: "70px" }}>Signup</h1>
+                        <h1 style={{ fontSize: "50px", marginBottom: "70px", color: "#139CF7" }}>Signup</h1>
                         <Form className="user-form" onSubmit={handleSignup}>
                             <Form.Control className="form-control"
                                 type="text"
@@ -95,6 +98,19 @@ const Signup = () => {
                             <button className="common-button" style={{ marginTop: "100px" }} type="submit" variant="primary">Signup</button>
                             {signupError && <h5 style={{ fontWeight: "500", fontSize: "16px", color: "red" }}>{signupError}</h5>}
                         </Form>
+                        <div className="separator">
+                            <span></span>
+                            <div className="or">OR</div>
+                            <span></span>
+                        </div>
+                        <div className="fb-forgot">
+                            <div className='facebook-login-btn'>
+                                <h5>Login with Facebook</h5>
+                            </div>
+                            <div className='forgot'>
+                                <h6>Forgot your password?</h6>
+                            </div>
+                        </div>
                     </Card.Body>
                 </Card>
                 <Card style={{ marginTop: "4px" }} className='auth-card'>
@@ -108,6 +124,14 @@ const Signup = () => {
                         </div>
                     </Card.Body>
                 </Card>
+
+                <div className="app-download flex direction-column align-items-center">
+                    <h5 style={{ fontSize: "18px", marginBottom: "15px" }}>Get the app</h5>
+                    <div className="flex justify-content-center">
+                        <img src={appleLogo} alt="" />
+                        <img src={googlePlayLogo} alt="" />
+                    </div>
+                </div>
             </div>
             <Footar></Footar>
         </>
