@@ -1,0 +1,19 @@
+.nav-brand{
+    font-size: 30px;
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+}
+.nav-brand:hover{
+    color: #000 !important;
+}
+.menu-item{
+    margin-right: 45px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 400;
+    color: #000;
+}
+.menu-item:hover{
+    color: #FC7FB2 !important;
+}
